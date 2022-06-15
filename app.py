@@ -47,3 +47,19 @@ def add_user():
     db.session.commit()
 
     return redirect('/users')
+
+
+app.get('/users/<int:user_id>')
+def user_page(user_id):
+    """Show user page per user details"""
+
+    user_record = User.query.get(user_id)
+
+
+    return render_template('user_page.html',user=user_record)
+
+
+
+
+
+
