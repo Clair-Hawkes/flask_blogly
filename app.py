@@ -1,6 +1,6 @@
 """Blogly application."""
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from models import db, connect_db, User
 
 app = Flask(__name__)
@@ -25,7 +25,25 @@ def list_users():
     return render_template("users.html",users=users)
 
 @app.get('/users/new')
-def add_user():
+def add_user_page():
     """Show form."""
 
     return render_template("add_user.html")
+
+@app.post('/users/new')
+def add_user():
+    """Hi."""
+
+    first_name = request.form['first-name']
+    last_name = request.form['last-name']
+    image_url = request.form['img-url']
+    image_url = str(image_url) if image_url else None
+
+    user = User(
+        first_name=first_name,
+        last_name=last_name,
+        image_url=image_url)
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect('/users')
