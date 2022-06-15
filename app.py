@@ -17,10 +17,15 @@ def index():
 
     return redirect('/users')
 
-
 @app.get('/users')
 def list_users():
-    """List users and show homepage"""
+    """List users and show homepage."""
 
     users = User.query.all()
     return render_template("users.html",users=users)
+
+@app.get('/users/new')
+def add_user():
+    """Show form."""
+
+    return render_template("add_user.html")
