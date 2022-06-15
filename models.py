@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import false
 db = SQLAlchemy()
 
+
 def connect_db(app):
     """Connect to database."""
 
@@ -21,10 +22,9 @@ class User (db.Model):
         autoincrement=True)
     first_name = db.Column(
         db.String(50),
-        nullable = false)
+        nullable=false)
     last_name = db.Column(
         db.String(50),
-        nullable = false)
+        nullable=false)
     image_url = db.Column(
         db.String(500))
-

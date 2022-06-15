@@ -11,24 +11,28 @@ app.config['SQLALCHEMY_ECHO'] = True
 connect_db(app)
 db.create_all()
 
+
 @app.get('/')
 def index():
     """Redirect to users route"""
 
     return redirect('/users')
 
+
 @app.get('/users')
 def list_users():
     """List users and show homepage."""
 
     users = User.query.all()
-    return render_template("users.html",users=users)
+    return render_template("users.html", users=users)
+
 
 @app.get('/users/new')
 def add_user_page():
     """Show form."""
 
     return render_template("add_user.html")
+
 
 @app.post('/users/new')
 def add_user():
@@ -55,11 +59,16 @@ def user_page(user_id):
 
     user_record = User.query.get(int(user_id))
 
-
-    return render_template('user_page.html',user=user_record)
-
+    return render_template('user_page.html', user=user_record)
 
 
+@app.get('/users/<user_id>/edit')
+def edit_user(user_id):
+    """Show user page per user details"""
 
+    user_record = User.query.get(int(user_id))
 
+    if not user_record.image_url:
+        user_record.image_url = ""
 
+    return render_template('edit_user.html', user=user_record)
