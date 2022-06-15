@@ -12,10 +12,10 @@ connect_db(app)
 # db.create_all()
 
 @app.get('/')
-def list_users():
+def index():
     """List users and show homepage"""
 
     users = User.query.all()
-    return render_template("base.html",users=users)
+    return render_template("index.html",users=users)
 
 
