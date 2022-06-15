@@ -5,7 +5,7 @@
 {% block content %}
 <h1>EDIT USER</h1>
 
-<form action="/users/new" method="POST">
+<form action="/users/{{ user.id }}/edit" method="POST">
 
   <div>
     <label for="first-name">First Name</label>

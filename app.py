@@ -53,22 +53,38 @@ def add_user():
     return redirect('/users')
 
 
-@app.get('/users/<user_id>')
+@app.get('/users/<int:user_id>')
 def user_page(user_id):
     """Show user page per user details"""
 
-    user_record = User.query.get(int(user_id))
+    user_record = User.query.get(user_id)
 
     return render_template('user_page.html', user=user_record)
 
 
-@app.get('/users/<user_id>/edit')
-def edit_user(user_id):
+@app.get('/users/<int:user_id>/edit')
+def edit_user_page(user_id):
     """Show user page per user details"""
 
-    user_record = User.query.get(int(user_id))
+    user_record = User.query.get(user_id)
 
     if not user_record.image_url:
         user_record.image_url = ""
 
     return render_template('edit_user.html', user=user_record)
+
+@app.post('/users/<int:user_id>/edit')
+def edit_user(user_id):
+    """Show user page per user details"""
+
+    user = User.query.get(user_id)
+
+    user.first_name = request.form['first-name']
+    user.last_name = request.form['last-name']
+    user.image_url = request.form['img-url']
+    user.image_url = str(user.image_url) if user.image_url else None
+
+    db.session.commit()
+
+
+    return redirect('/users')
