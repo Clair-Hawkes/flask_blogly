@@ -3,10 +3,11 @@
 {% block title %}User {{ user.first_name }} Page{% endblock %}
 
 {% block content %}
-<h1>User Page</h1>
-
+<h1>{{user.first_name}} {{user.last_name}}</h1>
+{% if user.image %}
 <img src="{{user.image_url}}" alt="User Profile Picture">
-<p>{{user.first_name}} {{user.last_name}}</p>
+
+{% endif %}
 
 <a href="/users/new" class="button">Edit</a>
 <a href="" class="button">Delete</a>
