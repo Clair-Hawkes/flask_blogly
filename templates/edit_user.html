@@ -19,8 +19,8 @@
     <label for="img-irl">Image URL</label>
     <input name="img-url" type="url" value="{{ user.image_url }}">
   </div>
-  <button type="submit">Add</button>
-
+  <button class="btn btn-primary" type="submit">Save</button>
+  <a class="btn btn-primary" href="/users/{{ user.id }}">Back</a>
 </form>
 
 {% endblock %}
