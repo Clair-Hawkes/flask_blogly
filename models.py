@@ -4,8 +4,15 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import false
 db = SQLAlchemy()
 
+def connect_db(app):
+    """Connect to database."""
+
+    db.app = app
+    db.init_app(app)
+
+
 class User (db.Model):
-    """Docstring????"""
+    """User."""
     __tablename__ = 'users'
 
     id = db.Column(
@@ -14,11 +21,10 @@ class User (db.Model):
         autoincrement=True)
     first_name = db.Column(
         db.String(50),
-        nullable =false)
+        nullable = false)
     last_name = db.Column(
-        db.string(50),
+        db.String(50),
         nullable = false)
     image_url = db.Column(
-        db.string(500),
-        nullable = false)
+        db.String(500))
 
