@@ -78,13 +78,23 @@ class UserViewTestCase(TestCase):
             self.assertIn("user_page", html)
             self.assertIn("<a href=", html)
 
-    def test_edit_user(self):
+            # Testing for 404 error with out of bounds user id.
+            resp = c.get(f"/users/100001010101010")
+            self.assertEqual(resp.status_code, 404)
+
+    def test_edit_page(self):
         with self.client as c:
             resp = c.get(f"/users/{self.user_id}/edit")
             self.assertEqual(resp.status_code, 200)
             html = resp.get_data(as_text=True)
             self.assertIn("Edit_User_page", html)
             self.assertIn("<input name=", html)
+
+            # Testing for 404 error with out of bounds user id.
+            resp = c.get(f"/users/100001010101010/edit")
+            self.assertEqual(resp.status_code, 404)
+
+
 
 
 

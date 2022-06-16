@@ -57,21 +57,21 @@ def add_user():
 def user_page(user_id):
     """Show user page per user details"""
 
-    user_record = User.query.get(user_id)
+    user = User.query.get_or_404(user_id)
 
-    return render_template('user_page.html', user=user_record)
+    return render_template('user_page.html', user=user)
 
 
 @app.get('/users/<int:user_id>/edit')
 def edit_user_page(user_id):
     """Show edit user page per user, with fields to update data."""
 
-    user_record = User.query.get(user_id)
+    user = User.query.get_or_404(user_id)
 
-    if not user_record.image_url:
-        user_record.image_url = ""
+    if not user.image_url:
+        user.image_url = ""
 
-    return render_template('edit_user.html', user=user_record)
+    return render_template('edit_user.html', user=user)
 
 @app.post('/users/<int:user_id>/edit')
 def edit_user(user_id):
@@ -92,10 +92,7 @@ def edit_user(user_id):
 
 @app.post("/users/<int:user_id>/delete")
 def delete_user(user_id):
-    """Delete User commits updatr to DB removing user."""
-
-    # user = User.query.get(user_id)
-    # user.query.delete()
+    """Delete User commits updatr to DB removing user. Redirects to /users list"""
 
     User.query.filter(User.id == user_id).delete()
     db.session.commit()
