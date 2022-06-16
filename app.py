@@ -12,6 +12,8 @@ connect_db(app)
 db.create_all()
 
 
+# User routes
+
 @app.get('/')
 def index():
     """Redirect to users route"""
@@ -133,6 +135,10 @@ def post_add(user_id):
     db.session.commit()
 
     return redirect(f'/users/{user_id}')
+
+
+
+# Post routes
 
 @app.get('/posts/<int:post_id>')
 def post_page(post_id):
