@@ -3,9 +3,11 @@
 {% block title %}User {{ user.first_name }} Page{% endblock %}
 
 {% block content %}
+<!-- user_page - used for test -->
+
 <h1>{{user.first_name}} {{user.last_name}}</h1>
 {% if user.image %}
-<img src="{{user.image_url}}" alt="User Profile Picture">
+  <img src="{{user.image_url}}" alt="User Profile Picture">
 
 {% endif %}
 

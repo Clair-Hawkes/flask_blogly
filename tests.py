@@ -1,10 +1,12 @@
 from unittest import TestCase
 
 from app import app, db
-from models import DEFAULT_IMAGE_URL, User
+from models import User
 
 # Let's configure our app to use a different database for tests
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///blogly_test"
+
+
 
 # Make Flask errors be real errors, rather than HTML pages with error info
 app.config['TESTING'] = True
@@ -58,3 +60,40 @@ class UserViewTestCase(TestCase):
             html = resp.get_data(as_text=True)
             self.assertIn("test_first", html)
             self.assertIn("test_last", html)
+
+
+    def test_add_user(self):
+        with self.client as c:
+            resp = c.get("/users/new")
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("add_user page", html)
+            self.assertIn("<form", html)
+
+    def test_user_page(self):
+        with self.client as c:
+            resp = c.get(f"/users/{self.user_id}")
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("user_page", html)
+            self.assertIn("<a href=", html)
+
+    def test_edit_user(self):
+        with self.client as c:
+            resp = c.get(f"/users/{self.user_id}/edit")
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("Edit_User_page", html)
+            self.assertIn("<input name=", html)
+
+
+
+
+
+
+
+
+
+
+
+
