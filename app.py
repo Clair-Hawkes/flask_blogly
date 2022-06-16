@@ -29,15 +29,15 @@ def list_users():
 
 @app.get('/users/new')
 def add_user_page():
-    """Show form."""
+    """Show add user form with fields for first/last name and img url."""
 
     return render_template("add_user.html")
 
 
 @app.post('/users/new')
 def add_user():
-    """Hi."""
-
+    """Creates new user instance and commits to DB, from fields values.
+    Redirects to /users page."""
     first_name = request.form['first-name']
     last_name = request.form['last-name']
     image_url = request.form['img-url']
@@ -64,7 +64,7 @@ def user_page(user_id):
 
 @app.get('/users/<int:user_id>/edit')
 def edit_user_page(user_id):
-    """Show user page per user details"""
+    """Show edit user page per user, with fields to update data."""
 
     user_record = User.query.get(user_id)
 
@@ -75,7 +75,8 @@ def edit_user_page(user_id):
 
 @app.post('/users/<int:user_id>/edit')
 def edit_user(user_id):
-    """Show user page per user details"""
+    """Updates user instance and commits to DB, with fields values.
+    Redirects to /users page."""
 
     user = User.query.get(user_id)
 
