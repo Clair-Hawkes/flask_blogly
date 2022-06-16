@@ -24,7 +24,7 @@ def users_list():
     """List users and show homepage."""
 
     users = User.query.order_by('id').all()
-    return render_template("users.html", users=users)
+    return render_template("user_list.html", users=users)
 
 
 @app.get('/users/new')
@@ -61,7 +61,8 @@ def user_page(user_id):
     """Show user page per user details"""
 
     user = User.query.get_or_404(user_id)
-    posts = Post.query.filter(Post.user_id == user_id).all()
+    # TODO: How to break line?
+    posts = Post.query.filter(Post.user_id == user_id).order_by('created_at').all()
 
     return render_template(
         'user_page.html',
@@ -140,6 +141,56 @@ def post_page(post_id):
     post = Post.query.get_or_404(post_id)
 
     return render_template('post_page.html',post=post)
+
+
+
+@app.get('/posts/<int:post_id>/edit')
+def post_edit_page(post_id):
+    """Show edit post page per user, with fields to update data."""
+
+    post = Post.query.get_or_404(post_id)
+
+    # if not user.image_url:
+    #     user.image_url = ""
+
+    return render_template('post_edit.html', post=post)
+
+@app.post('/posts/<int:post_id>/edit')
+def post_edit(post_id):
+    """Updates post instance and commits to DB, with fields values.
+    Redirects to post page."""
+
+    post = Post.query.get(post_id)
+
+    post.title = request.form['title']
+    post.content = request.form['content']
+
+    # if not user.image_url:
+    #     user.image_url = None
+
+    db.session.commit()
+
+    return redirect(f'/posts/{post_id}')
+
+@app.post('/posts/<int:post_id>/delete')
+def post_delete(post_id):
+    """Delete post commits update to DB removing post.
+    Redirects to user page"""
+
+    post = Post.query.get(post_id)
+    user_id = post.user.id
+
+    Post.query.filter(Post.id == post_id).delete()
+    db.session.commit()
+
+    return redirect(f'/users/{user_id}')
+
+
+
+
+
+
+
 
 
 
