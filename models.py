@@ -50,7 +50,7 @@ class Post (db.Model):
         # Default server time?
         db.DateTime,
         nullable=false,
-        default=db.func.now)
+        default=db.func.now())
     # USer Foreign Key
     user_id = db.Column(
         db.Integer,

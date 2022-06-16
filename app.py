@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, redirect, request
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -41,7 +41,8 @@ def add_user():
     first_name = request.form['first-name']
     last_name = request.form['last-name']
     image_url = request.form['img-url']
-    image_url = str(image_url) if image_url else None
+    if not image_url:
+        image_url = None
 
     user = User(
         first_name=first_name,
@@ -58,8 +59,12 @@ def user_page(user_id):
     """Show user page per user details"""
 
     user = User.query.get_or_404(user_id)
+    posts = Post.query.filter(Post.user_id == user_id).all()
 
-    return render_template('user_page.html', user=user)
+    return render_template(
+        'user_page.html',
+        user=user,
+        posts=posts)
 
 
 @app.get('/users/<int:user_id>/edit')
@@ -83,7 +88,8 @@ def edit_user(user_id):
     user.first_name = request.form['first-name']
     user.last_name = request.form['last-name']
     user.image_url = request.form['img-url']
-    user.image_url = str(user.image_url) if user.image_url else None
+    if not user.image_url:
+        user.image_url = None
 
     db.session.commit()
 
@@ -92,13 +98,40 @@ def edit_user(user_id):
 
 @app.post("/users/<int:user_id>/delete")
 def delete_user(user_id):
-    """Delete User commits updatr to DB removing user. Redirects to /users list"""
+    """Delete User commits update to DB removing user. Redirects to /users list"""
 
     User.query.filter(User.id == user_id).delete()
     db.session.commit()
 
     return redirect ('/users')
 
+
+@app.get("/users/<int:user_id>/posts/new")
+def user_post_page(user_id):
+    """Delete User commits update to DB removing user. Redirects to /users list"""
+
+    user = User.query.get_or_404(user_id)
+
+    return render_template('user_post_page.html', user=user)
+
+@app.post("/users/<int:user_id>/posts/new")
+def user_post(user_id):
+    """Delete User commits update to DB removing user. Redirects to /users list"""
+
+    title = request.form['title']
+    content = request.form['content']
+
+    # user = User.query.get(user_id)
+
+    post = Post(
+        title=title,
+        content=content,
+        user_id=user_id)
+
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect(f'/users/{user_id}')
 
 
 
