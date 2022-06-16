@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}User {{ post.title }} Page{% endblock %}
+
+{% block content %}
+<!-- post_page - used for test -->
+
+<h1>{{post.title}}</h1>
+{% if post.content %}
+  <p>{{ post.content }}</p>
+{% endif %}
+
+<p>By {{ post.user.first_name }} {{ post.user.last_name }}</p>
+
+{% endblock %}

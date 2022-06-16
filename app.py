@@ -133,5 +133,28 @@ def user_post(user_id):
 
     return redirect(f'/users/{user_id}')
 
+@app.get('/posts/<int:post_id>')
+def post_page(post_id):
+    """Show post title and content per post id"""
+
+    post = Post.query.get_or_404(post_id)
 
 
+    return render_template('post_page.html',post=post)
+
+
+
+
+
+
+# @app.get('/users/<int:user_id>')
+# def user_page(user_id):
+#     """Show user page per user details"""
+
+#     user = User.query.get_or_404(user_id)
+#     posts = Post.query.filter(Post.user_id == user_id).all()
+
+#     return render_template(
+#         'user_page.html',
+#         user=user,
+#         posts=posts)
