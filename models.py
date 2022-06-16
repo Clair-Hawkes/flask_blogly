@@ -28,7 +28,7 @@ class User (db.Model):
         db.String(50),
         nullable=false)
     image_url = db.Column(
-        db.String(500))
+        db.Text)
 
 
 class Post (db.Model):

@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}User {{ user.first_name }} Page{% endblock %}
+{% block title %}{{ user.first_name }}'s Page{% endblock %}
 
 {% block content %}
 <!-- user_page - used for test -->
 
 <h1>{{user.first_name}} {{user.last_name}}</h1>
-{% if user.image %}
-  <img src="{{user.image_url}}" alt="User Profile Picture">
-
+{% if user.image_url %}
+  <img src="{{user.image_url}}" alt="User Profile Picture" style="width: 100px">
 {% endif %}
 
 <form action="/users/{{user.id}}/delete" method="POST">

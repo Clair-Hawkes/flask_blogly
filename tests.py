@@ -67,7 +67,7 @@ class UserViewTestCase(TestCase):
             resp = c.get("/users/new")
             self.assertEqual(resp.status_code, 200)
             html = resp.get_data(as_text=True)
-            self.assertIn("add_user page", html)
+            self.assertIn("user_add page", html)
             self.assertIn("<form", html)
 
     def test_user_page(self):
@@ -87,7 +87,7 @@ class UserViewTestCase(TestCase):
             resp = c.get(f"/users/{self.user_id}/edit")
             self.assertEqual(resp.status_code, 200)
             html = resp.get_data(as_text=True)
-            self.assertIn("Edit_User_page", html)
+            self.assertIn("user_edit page", html)
             self.assertIn("<input name=", html)
 
             # Testing for 404 error with out of bounds user id.

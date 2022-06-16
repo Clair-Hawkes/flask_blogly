@@ -20,24 +20,25 @@ def index():
 
 
 @app.get('/users')
-def list_users():
+def users_list():
     """List users and show homepage."""
 
-    users = User.query.all()
+    users = User.query.order_by('id').all()
     return render_template("users.html", users=users)
 
 
 @app.get('/users/new')
-def add_user_page():
+def user_add_page():
     """Show add user form with fields for first/last name and img url."""
 
-    return render_template("add_user.html")
+    return render_template("user_add.html")
 
 
 @app.post('/users/new')
-def add_user():
+def user_add():
     """Creates new user instance and commits to DB, from fields values.
     Redirects to /users page."""
+
     first_name = request.form['first-name']
     last_name = request.form['last-name']
     image_url = request.form['img-url']
@@ -48,6 +49,7 @@ def add_user():
         first_name=first_name,
         last_name=last_name,
         image_url=image_url)
+
     db.session.add(user)
     db.session.commit()
 
@@ -68,7 +70,7 @@ def user_page(user_id):
 
 
 @app.get('/users/<int:user_id>/edit')
-def edit_user_page(user_id):
+def user_edit_page(user_id):
     """Show edit user page per user, with fields to update data."""
 
     user = User.query.get_or_404(user_id)
@@ -76,10 +78,10 @@ def edit_user_page(user_id):
     if not user.image_url:
         user.image_url = ""
 
-    return render_template('edit_user.html', user=user)
+    return render_template('user_edit.html', user=user)
 
 @app.post('/users/<int:user_id>/edit')
-def edit_user(user_id):
+def user_edit(user_id):
     """Updates user instance and commits to DB, with fields values.
     Redirects to /users page."""
 
@@ -97,31 +99,29 @@ def edit_user(user_id):
     return redirect('/users')
 
 @app.post("/users/<int:user_id>/delete")
-def delete_user(user_id):
+def user_delete(user_id):
     """Delete User commits update to DB removing user. Redirects to /users list"""
 
     User.query.filter(User.id == user_id).delete()
     db.session.commit()
 
-    return redirect ('/users')
+    return redirect('/users')
 
 
 @app.get("/users/<int:user_id>/posts/new")
-def user_post_page(user_id):
+def post_add_page(user_id):
     """Delete User commits update to DB removing user. Redirects to /users list"""
 
     user = User.query.get_or_404(user_id)
 
-    return render_template('user_post_page.html', user=user)
+    return render_template('post_add.html', user=user)
 
 @app.post("/users/<int:user_id>/posts/new")
-def user_post(user_id):
+def post_add(user_id):
     """Delete User commits update to DB removing user. Redirects to /users list"""
 
     title = request.form['title']
     content = request.form['content']
-
-    # user = User.query.get(user_id)
 
     post = Post(
         title=title,
@@ -138,7 +138,6 @@ def post_page(post_id):
     """Show post title and content per post id"""
 
     post = Post.query.get_or_404(post_id)
-
 
     return render_template('post_page.html',post=post)
 
