@@ -47,11 +47,9 @@ class Post (db.Model):
         db.Text,
         nullable=false)
     created_at=db.Column(
-        # Default server time?
         db.DateTime,
         nullable=false,
         default=db.func.now())
-    # USer Foreign Key
     user_id = db.Column(
         db.Integer,
         db.ForeignKey("users.id"))

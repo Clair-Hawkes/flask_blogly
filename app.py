@@ -22,7 +22,7 @@ def index():
 
 
 @app.get('/users')
-def users_list():
+def user_list():
     """List users and show homepage."""
 
     users = User.query.order_by('id').all()
@@ -83,6 +83,7 @@ def user_edit_page(user_id):
 
     return render_template('user_edit.html', user=user)
 
+
 @app.post('/users/<int:user_id>/edit')
 def user_edit(user_id):
     """Updates user instance and commits to DB, with fields values.
@@ -98,8 +99,8 @@ def user_edit(user_id):
 
     db.session.commit()
 
-
     return redirect('/users')
+
 
 @app.post("/users/<int:user_id>/delete")
 def user_delete(user_id):
@@ -119,6 +120,7 @@ def post_add_page(user_id):
 
     return render_template('post_add.html', user=user)
 
+
 @app.post("/users/<int:user_id>/posts/new")
 def post_add(user_id):
     """Delete User commits update to DB removing user. Redirects to /users list"""
@@ -137,7 +139,6 @@ def post_add(user_id):
     return redirect(f'/users/{user_id}')
 
 
-
 # Post routes
 
 @app.get('/posts/<int:post_id>')
@@ -146,8 +147,7 @@ def post_page(post_id):
 
     post = Post.query.get_or_404(post_id)
 
-    return render_template('post_page.html',post=post)
-
+    return render_template('post_page.html', post=post)
 
 
 @app.get('/posts/<int:post_id>/edit')
@@ -156,10 +156,8 @@ def post_edit_page(post_id):
 
     post = Post.query.get_or_404(post_id)
 
-    # if not user.image_url:
-    #     user.image_url = ""
-
     return render_template('post_edit.html', post=post)
+
 
 @app.post('/posts/<int:post_id>/edit')
 def post_edit(post_id):
@@ -171,12 +169,10 @@ def post_edit(post_id):
     post.title = request.form['title']
     post.content = request.form['content']
 
-    # if not user.image_url:
-    #     user.image_url = None
-
     db.session.commit()
 
     return redirect(f'/posts/{post_id}')
+
 
 @app.post('/posts/<int:post_id>/delete')
 def post_delete(post_id):
@@ -190,27 +186,3 @@ def post_delete(post_id):
     db.session.commit()
 
     return redirect(f'/users/{user_id}')
-
-
-
-
-
-
-
-
-
-
-
-
-
-# @app.get('/users/<int:user_id>')
-# def user_page(user_id):
-#     """Show user page per user details"""
-
-#     user = User.query.get_or_404(user_id)
-#     posts = Post.query.filter(Post.user_id == user_id).all()
-
-#     return render_template(
-#         'user_page.html',
-#         user=user,
-#         posts=posts)

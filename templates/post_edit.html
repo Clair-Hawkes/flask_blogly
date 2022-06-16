@@ -3,25 +3,25 @@
 {% block title %}Edit Post{% endblock %}
 
 {% block content %}
-<!-- post_edit page - used in test -->
+  <!-- post_edit page - used in test -->
 
-<h1>EDIT POST</h1>
+  <h1>EDIT POST</h1>
 
-<form action="/posts/{{ post.id }}/edit" method="POST">
+  <form action="/posts/{{ post.id }}/edit" method="POST">
 
-  <div>
-    <label for="title">Title</label>
-    <input name="title" id="title" type="text" value="{{ post.title }}" required>
-  </div>
-  <div>
-    <label for="content">Content</label>
-    <!-- TODO:Text Area catches /r+ carriage return?
-      Formatting to not influence post content? -->
-    <textarea name="content" id="content" rows="5" cols="60" required>{{ post.content }}</textarea>
-  </div>
-  <a class="btn btn-primary" href="/posts/{{ post.id }}">Cancel</a>
-  <button class="btn btn-primary" type="submit">Edit</button>
+    <div>
+      <label for="title">Title</label>
+      <input name="title" id="title" type="text" value="{{ post.title }}" required>
+    </div>
+    <div>
+      <label for="content">Content</label>
+      <!-- TODO:Text Area catches /r+ carriage return?
+        Formatting to not influence post content? -->
+      <textarea name="content" id="content" rows="5" cols="60" required>{{ post.content }}</textarea>
+    </div>
+    <a class="btn btn-primary" href="/posts/{{ post.id }}">Cancel</a>
+    <button class="btn btn-primary" type="submit">Edit</button>
 
-</form>
+  </form>
 
 {% endblock %}
