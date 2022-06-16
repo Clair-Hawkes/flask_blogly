@@ -9,7 +9,10 @@
 
 {% endif %}
 
-<a href="/users/{{ user.id }}/edit" class="btn btn-primary">Edit</a>
-<a href="" class="btn btn-primary">Delete</a>
+<form action="/users/{{user.id}}/delete" method="POST">
+  <a href="/users/{{ user.id }}/edit" class="btn btn-primary">Edit</a>
+  <button type="'submit" class="btn btn-primary">Delete</button>
+</form>
+
 
 {% endblock %}
