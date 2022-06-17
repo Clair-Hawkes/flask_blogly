@@ -140,14 +140,15 @@ class PostViewTestCase(TestCase):
         db.session.rollback()
 
     def test_post_page(self):
+        """Check if post page loads correctly."""
         with self.client as c:
             resp = c.get(f"/posts/{self.post_id}")
             self.assertEqual(resp.status_code, 200)
             html = resp.get_data(as_text=True)
             self.assertIn("post_page", html)
-            self.assertIn("<form", html)
 
     def test_post_edit_page(self):
+        """Check if post edit page loads correctly."""
         with self.client as c:
             resp = c.get(f"/posts/{self.post_id}/edit")
             self.assertEqual(resp.status_code, 200)
@@ -160,6 +161,8 @@ class PostViewTestCase(TestCase):
             self.assertEqual(resp.status_code, 404)
 
     def test_post_edit_page(self):
+        """Check if post edit changes are correctly stored in db, and displayed
+            on redirected post page."""
         with self.client as c:
             resp = c.post(
                 f"/posts/{self.post_id}/edit",
@@ -175,6 +178,7 @@ class PostViewTestCase(TestCase):
             self.assertIn("post_page", html)
 
     def test_post_delete(self):
+        """Check if delete post view successfully redirects to user page."""
         with self.client as c:
             resp = c.post(
                 f"/posts/{self.post_id}/delete",

@@ -52,7 +52,8 @@ class Post (db.Model):
         default=db.func.now())
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey("users.id"))
+        db.ForeignKey("users.id"),
+        nullable=false)
 
     user = db.relationship("User",backref='posts')
 

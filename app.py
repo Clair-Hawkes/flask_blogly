@@ -12,7 +12,7 @@ connect_db(app)
 db.create_all()
 
 
-# User routes
+############### User routes
 
 @app.get('/')
 def index():
@@ -63,7 +63,6 @@ def user_page(user_id):
     """Show user page per user details"""
 
     user = User.query.get_or_404(user_id)
-    # TODO: How to break line?
     posts = Post.query.filter(Post.user_id == user_id).order_by('created_at').all()
 
     return render_template(
@@ -112,6 +111,8 @@ def user_delete(user_id):
     return redirect('/users')
 
 
+############ Post routes
+
 @app.get("/users/<int:user_id>/posts/new")
 def post_add_page(user_id):
     """Delete User commits update to DB removing user. Redirects to /users list"""
@@ -120,14 +121,14 @@ def post_add_page(user_id):
 
     return render_template('post_add.html', user=user)
 
-
 @app.post("/users/<int:user_id>/posts/new")
 def post_add(user_id):
-    """Delete User commits update to DB removing user. Redirects to /users list"""
+    """..."""
 
+    #TODO: get_or_404 user to check id against
     title = request.form['title']
     content = request.form['content']
-
+    #user.post.add(Post())
     post = Post(
         title=title,
         content=content,
@@ -139,8 +140,6 @@ def post_add(user_id):
     return redirect(f'/users/{user_id}')
 
 
-# Post routes
-
 @app.get('/posts/<int:post_id>')
 def post_page(post_id):
     """Show post title and content per post id"""
@@ -148,7 +147,6 @@ def post_page(post_id):
     post = Post.query.get_or_404(post_id)
 
     return render_template('post_page.html', post=post)
-
 
 @app.get('/posts/<int:post_id>/edit')
 def post_edit_page(post_id):
@@ -163,7 +161,7 @@ def post_edit_page(post_id):
 def post_edit(post_id):
     """Updates post instance and commits to DB, with fields values.
     Redirects to post page."""
-
+    #TODO: or_404
     post = Post.query.get(post_id)
 
     post.title = request.form['title']
@@ -178,7 +176,7 @@ def post_edit(post_id):
 def post_delete(post_id):
     """Delete post commits update to DB removing post.
     Redirects to user page"""
-
+    #TODO: or_404
     post = Post.query.get(post_id)
     user_id = post.user.id
 

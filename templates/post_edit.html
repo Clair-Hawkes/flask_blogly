@@ -15,9 +15,8 @@
     </div>
     <div>
       <label for="content">Content</label>
-      <!-- TODO:Text Area catches /r+ carriage return?
-        Formatting to not influence post content? -->
-      <textarea name="content" id="content" rows="5" cols="60" required>{{ post.content }}</textarea>
+      <textarea name="content" id="content" rows="5" cols="60" required
+        >{{ post.content }}</textarea>
     </div>
     <a class="btn btn-primary" href="/posts/{{ post.id }}">Cancel</a>
     <button class="btn btn-primary" type="submit">Edit</button>
