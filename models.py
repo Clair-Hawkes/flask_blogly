@@ -58,6 +58,44 @@ class Post (db.Model):
     user = db.relationship("User",backref='posts')
 
 
+class Tag (db.model):
+    """Create tag instances"""
+
+    __tablename__= 'tags'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        autoincrement=True)
+    name = db.Column(
+        db.String(50),
+        nullable=false,
+        Unique=True
+        )
+
+
+class PostTag (db.model):
+    """Create PostTag instances"""
+
+    __tablename__= 'posttags'
+    # tag_id
+    tag_id = db.Column(
+        db.Integer,
+        db.ForeignKey('tags.id'),
+        primary_key=True,
+        nullable=False)
+    post_id = db.Column(
+        db.Integer,
+        db.ForeignKey('posts.id'),
+        primary_key=True,
+        nullable=False)
+
+    tag = db.relationship("Tag",backref='posttags')
+    post = db.relationship("Post",backref = 'posttags')
+
+
+
+
 
 
 
