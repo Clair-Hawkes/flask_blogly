@@ -123,9 +123,11 @@ def post_add_page(user_id):
 
 @app.post("/users/<int:user_id>/posts/new")
 def post_add(user_id):
-    """..."""
+    """Updates DB with new post data from form inputs.
+    Redirects to user page."""
 
-    #TODO: get_or_404 user to check id against
+    User.query.get_or_404(user_id)
+
     title = request.form['title']
     content = request.form['content']
     #user.post.add(Post())
@@ -161,8 +163,7 @@ def post_edit_page(post_id):
 def post_edit(post_id):
     """Updates post instance and commits to DB, with fields values.
     Redirects to post page."""
-    #TODO: or_404
-    post = Post.query.get(post_id)
+    post = Post.query.get_or_404(post_id)
 
     post.title = request.form['title']
     post.content = request.form['content']
@@ -176,8 +177,7 @@ def post_edit(post_id):
 def post_delete(post_id):
     """Delete post commits update to DB removing post.
     Redirects to user page"""
-    #TODO: or_404
-    post = Post.query.get(post_id)
+    post = Post.query.get_or_404(post_id)
     user_id = post.user.id
 
     Post.query.filter(Post.id == post_id).delete()
