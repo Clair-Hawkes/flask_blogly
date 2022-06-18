@@ -12,7 +12,7 @@ connect_db(app)
 db.create_all()
 
 
-############### User routes
+############### User routes ####################
 
 @app.get('/')
 def index():
@@ -111,7 +111,7 @@ def user_delete(user_id):
     return redirect('/users')
 
 
-############ Post routes
+############ Post routes ######################
 
 @app.get("/users/<int:user_id>/posts/new")
 def post_add_page(user_id):
@@ -184,3 +184,4 @@ def post_delete(post_id):
     db.session.commit()
 
     return redirect(f'/users/{user_id}')
+
